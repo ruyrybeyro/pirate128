@@ -1,14 +1,14 @@
 ; Commented (dis)assembly listing of Pirata - https://spectrumcomputing.co.uk/entry/36321/ZX-Spectrum/Pirata
 ; Rui Ribeiro - 2021
 ;
-; border cyan/red - introduce tape to copy
+; border cyan/red - insert tape to copy
 ;                   SPACE to force end?
 ;
-; border yellow   - introduce blank tape and press 1 
+; border yellow   - insert blank tape and press 1 
 ;                   (and some other keys, including space,
 ;                   see BIT0KEY)
 ;
-; border green    - 1 another copy
+; border green    - 1 make another copy
 ;                   2 start over
 ;
 ; FORMAT of tape block in memory from $4000 onwards
@@ -23,6 +23,8 @@
 ; 171 bytes = 155 bytes + 16 bytes for stack (of which 14 are available)
 
 ; ROM CALL - alternate LD_BYTES entry point
+; https://skoolkid.github.io/rom/asm/0556.html
+;
 ; for not returning to SA_LD_RET at the end of load.
 ; Interrupts must be disabled
 ; 
@@ -50,6 +52,8 @@ LD_BYTES2	EQU	$0562
 LD_FLAG2	EQU	$05B6
 
 ; ROM CALL - SA-BYTES subroutine
+; https://skoolkid.github.io/rom/asm/04C2.html
+;
 ;A  = flag, usually 00 header block, $FF data block
 ;DE = block length
 ;IX = start address
@@ -63,6 +67,7 @@ SA_BYTES	EQU	$04C2
 		; originally stored in a REM statement in BASIC
 		; transfered to $FF54 via LDIR
                 ;
+		; ORG	65364
 		ORG 	$FF54
 
 ;
@@ -101,8 +106,9 @@ L_NEXTBLK:	LD	(IX+02),00	; init flag to zero
 		INC	IX              ; size of block MSB
 		INC	IX              ; flag
 		LD	A,00		; header block	- Could be XOR A, one less byte
-		LD	DE,BEGIN-0x4000	; $BF54	 max number of bytes
-					; could be MAINLOOP-0x4000 for more bytes free
+		LD	DE,BEGIN-0x4000	; $BF54/48980 max number of bytes
+					; could be MAINLOOP-0x4000 
+					; for more free bytes 
 		; set carry flag for LOADing
 		SCF
 
@@ -123,7 +129,8 @@ L_NEXTBLK:	LD	(IX+02),00	; init flag to zero
 		JR	Z,END_LOAD	; end of tape byte stream
 
 		; read keyboard port $7FFE
-		LD	A,$7F		; select keyboard half row BNM Symbol SPACE
+                ; select keyboard half row BNM Symbol SPACE
+		LD	A,$7F		
 		IN 	A,($FE)
 		RR	A
 		JR	NC,SAVE_SECTION	; if bit 0 = 0
