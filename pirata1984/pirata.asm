@@ -80,7 +80,7 @@ SA_BYTES	EQU	$04C2
 	
 BEGIN:		LD	SP,$FFFF	; stack pointer - end of RAM
 					; should be 0000
-					; as SP grows on reverse
+					; as SP grows on reverse order
 	
 		DI			; DI can be moved to before the SP
 					; it is only needed the first time
@@ -99,13 +99,19 @@ BEGIN:		LD	SP,$FFFF	; stack pointer - end of RAM
 		LD	IX,$4000	; beginning of RAM/screen
 					; "MAINLOOP"
 
-L_NEXTBLK:	LD	(IX+02),00	; init flag to zero
-					; it won't be set if header block 0
+					; if start from scratch loop 
+					; was coming here instead of at BEGIN
+					; there would be more 4 bytes of free RAM
+
+L_NEXTBLK:	LD	(IX+02),00	; init flag type of tape block to zero
+					; it won't be set by code if header block 0
 
 		PUSH	IX
 		INC	IX		; size of block LSB
 		INC	IX              ; size of block MSB
-		INC	IX              ; flag
+		INC	IX              ; flag type
+					; usually 00 for header and FF for data			
+
 		LD	A,00		; header block	- Could be XOR A, one less byte
 		LD	DE,BEGIN-0x4000	; $BF54/48980 max number of bytes
 					; could be MAINLOOP-0x4000 
@@ -140,11 +146,12 @@ L_NEXTBLK:	LD	(IX+02),00	; init flag to zero
 					; SPACE pressed, finish block(s) loading loop
 					; and jump to save
 
-		; if we arrive here
-		; block flag is different than 0
+		; if this block is executed is because
+		; the block flag is different than 0
 		; though at the LD_BYTES routine point
 		; it is stored now in L (and not A) 
-                ; (L is used to store/put together the last loaded byte/bits)
+                ; (L is used to store/put together the last loaded byte/bits
+		; at LD_BYTES 8-bit loading loop)
 
 		LD	(IX-01),L	; save flag block identifier byte in RAM
 					; after block size
@@ -194,7 +201,7 @@ END_LOAD:	LD	HL,BEGIN-0x4000 ; $BF54  max number of bytes
 		INC	HL		; point to next byte
 		LD	(HL),D
 
-		DEC	IX		; loading leaves IX at IX+1, DEC it
+		DEC	IX		; LD_BYTES loading leaves IX at IX+1, DEC it
 		JR	L_NEXTBLK	; next block
 
 ;
@@ -209,9 +216,11 @@ END_LOAD:	LD	HL,BEGIN-0x4000 ; $BF54  max number of bytes
 
 SAVE_SECTION:	POP	HL		; POP IX before loading
 
-		LD	(HL),00		; (IX) = 0 word, no more blocks
+		; (latter IX) = 0 word, no more blocks
+		LD	(HL),00		; (latter IX) = LSB 0 word
 		INC	HL		; point to next byte
-		LD	(HL),00		; could be XOR A,LD (HL),A,INC HL,LD (HL),A
+		LD	(HL),00		; (latter IX) = MSB 0 word
+					; could be XOR A,LD (HL),A,INC HL,LD (HL),A
 					; less one byte
 ;
 ; ===========================
@@ -261,6 +270,7 @@ NEXT_SBLOCK:	CALL	DELAY
 					; JR ....
                                         ; LD A,(IX+2)
                                         ; less 3 bytes
+
 		; Add 3 to get past word block SIZE + flag
 		INC	IX
 		INC	IX		
@@ -294,7 +304,7 @@ NEXT_SBLOCK:	CALL	DELAY
 					; (and it happens occasionally) 
 
 
-		DEC	IX
+		DEC	IX		; IX+1 returned from SA_BYTES needs to be corrected
 		JR	NEXT_SBLOCK	; saves next block
 
 ;
@@ -316,7 +326,7 @@ EXIT_SAVE:	LD	A,04         	; border green
 WAIT_1_2:	IN	A,(C)
 		BIT	1,A	    	; key "2"
 		JP	Z,BEGIN      	; begin from scratch
-					; ought be MAINLOOP
+					; ought to be MAINLOOP
 
 		BIT	0,A         	; key "1"
 		JR	Z,BEGIN_SBLOCK	; save again another copy
@@ -330,7 +340,7 @@ WAIT_1_2:	IN	A,(C)
 ; delay of aprox 0.9 seconds
 
 DELAY:		LD	BC,$FFFF	
-DLOOP:		DEC	BC		; $FFFF DECs
+DLOOP:		DEC	BC		; decrement BC $FFFF/65535 times
 		LD	A,B		; till BC=0
 		OR	C
 		JR	NZ,DLOOP	; JR if BC not equal 0
