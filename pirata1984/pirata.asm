@@ -214,7 +214,8 @@ END_LOAD:	LD	HL,BEGIN-0x4000 ; $BF54  max number of bytes
 ; (Next) block with size of word 0, means END.
 ;
 
-SAVE_SECTION:	POP	HL		; POP IX before loading
+SAVE_SECTION:	POP	HL		; POP IX value before loading
+					; (beginning of block)
 
 		; (latter IX) = 0 word, no more blocks
 		LD	(HL),00		; (latter IX) = LSB 0 word
@@ -346,6 +347,6 @@ DLOOP:		DEC	BC		; decrement BC $FFFF/65535 times
 		JR	NZ,DLOOP	; JR if BC not equal 0
 		RET
 
-;FFEF		15 bytes for stack, so 14 available without corrupting MC 
+;FFEF		15 bytes for stack, so 14 available without corrupting machine code
 ;		(SP should be initialized to 0 and not $FFFF for using 16 bytes)
 		
