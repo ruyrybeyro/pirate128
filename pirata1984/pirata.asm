@@ -82,7 +82,7 @@ BEGIN:		LD	SP,$FFFF	; stack pointer - end of RAM
 					; should be 0000
 					; as SP grows downwards 
 	
-		DI			; DI can be moved to before the SP
+		DI			; DI can be moved to before the SP instruction
 					; it is only needed the first time
                                         ; more one byte to load
 
