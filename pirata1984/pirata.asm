@@ -279,7 +279,7 @@ NEXT_SBLOCK:	CALL	DELAY
 					; it needs 20 bytes stack
 					; if a interrupt happens and a key is pressed
 					; machine code will be corrupted
-					; at the DELAY function
+					; at the DELAY subroutine
 
 					; nevertheless, an interrupt happening
 					; just before DI
