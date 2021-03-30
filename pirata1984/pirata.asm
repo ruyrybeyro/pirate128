@@ -32,7 +32,7 @@
 ; IX = start address
 ; DE = block lenght
 ;
-; returns in LD_FLAG if different flag
+; returns from LD_FLAG if different flag
 ; returns when SPACE pressed or end of data on tape
 ;
 ; upon completion:
