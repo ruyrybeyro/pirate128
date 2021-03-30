@@ -109,6 +109,7 @@ L_NEXTBLK:	LD	(IX+02),00	; init flag to zero
 		LD	DE,BEGIN-0x4000	; $BF54/48980 max number of bytes
 					; could be MAINLOOP-0x4000 
 					; for more free bytes 
+
 		; set carry flag for LOADing
 		SCF
 
@@ -124,6 +125,7 @@ L_NEXTBLK:	LD	(IX+02),00	; init flag to zero
 
 		LD	A,$0F		; border white/MIC off
 		OUT	($FE),A		
+		; end of "ROM" code
 
 		CALL	$LD_BYTES2    	; load block
 		JR	Z,END_LOAD	; end of tape byte stream
@@ -170,22 +172,24 @@ L_NEXTBLK:	LD	(IX+02),00	; init flag to zero
 
 		    ; subtract from max number of bytes / original lenght
                     ; to get bytes loaded
-		    ; eg. original DE given to LD_BYTES - new DE - 1
+		    ; eg. original DE calling LD_BYTES vs new DE returning from LD_BYTES 
+		    ; DE (length) = original DE - new DE - 1 
 
 END_LOAD:	LD	HL,BEGIN-0x4000 ; $BF54  max number of bytes
 					; could be MAINLOOP-0x4000
 
 		OR	A		; carry =0
-		SBC	HL,DE		; HL=bytes loaded
+		SBC	HL,DE		; HL=bytes loaded - HL=HL-DE
 
 		PUSH	HL
 		POP	DE		; DE=HL=bytes loaded(+checksum)
+
 		DEC	DE		; DE=bytes loaded
 
-		POP	HL		; POP IX before loading, beggining of block
+		POP	HL		; POP IX before loading, beginning of block
 		    
 		; store lenght in memory of this block, before data loaded
-		LD	(HL),E          ; (HL) = size (word) at beggining of block
+		LD	(HL),E          ; (HL) = size (word) = DE at the beginning of block
 		INC	HL		; point to next byte
 		LD	(HL),D
 
@@ -239,7 +243,7 @@ BIT0KEY:	XOR	A		; select all keyboard half-rows
 ; save all blocks
 ; with a delay of 0.9 seconds between them
 
-BEGIN_SBLOCK:	LD	IX,$4000	; begin of RAM
+BEGIN_SBLOCK:	LD	IX,$4000	; first RAM address
 NEXT_SBLOCK:	CALL	DELAY	
 		LD	A,(IX+00)       ; LSB size of block	
 		LD	D,(IX+01)       ; MSB size of block
