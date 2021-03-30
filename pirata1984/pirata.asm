@@ -2,7 +2,7 @@
 ; Rui Ribeiro - 2021
 ;
 ; border cyan/red - insert tape to copy
-;                   SPACE to force end?
+;                   SPACE to end, jump to save
 ;
 ; border yellow   - insert blank tape and press 1 
 ;                   (and some other keys, including space,
