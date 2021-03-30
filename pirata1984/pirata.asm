@@ -272,6 +272,9 @@ NEXT_SBLOCK:	CALL	DELAY
 					; As it is, EI is executed at $054F, after
 					; saving a block
 
+                DI                      ; disabling interrupts, enabled in SA/LD-RET
+                                        ; returning from SA_BYTES
+
 				        ; if an interrupt comes before DI
 					; it needs 20 bytes stack
 					; if a interrupt happens and a key is pressed
@@ -285,8 +288,6 @@ NEXT_SBLOCK:	CALL	DELAY
 					; 1 or 2 bytes at FRAMES ($5C78)
 					; (and it happens occasionally) 
 
-		DI			; disabling interrupts, enabled in SA/LD-RET
-					; returning from SA_BYTES
 
 		DEC	IX
 		JR	NEXT_SBLOCK	; saves next block
