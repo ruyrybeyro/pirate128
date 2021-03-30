@@ -347,7 +347,7 @@ DLOOP:		DEC	BC		; decrement BC $FFFF/65535 times
 		JR	NZ,DLOOP	; JR if BC not equal 0
 		RET
 
-;FFEF		16 bytes at then end of RAM empty
+;FFEF		16 bytes at the end of RAM empty
 ;               15 bytes for stack from SP, so 14 available without corrupting machine code
 ;		(SP should be initialized to 0 and not $FFFF for using the 16 allocated bytes)
 		
