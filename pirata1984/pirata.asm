@@ -30,7 +30,7 @@
 ; 
 ; A' - header block + Z=1
 ; IX = start address
-; DE = block lenght
+; DE = block length
 ;
 ; returns from LD_FLAG if different flag
 ; returns when SPACE pressed or end of data on tape
@@ -172,13 +172,13 @@ L_NEXTBLK:	LD	(IX+02),00	; init flag type of tape block to zero
 ;  Loading block housekeeping
 ; ===========================
 ;
-; Calculate loaded bytes, and store the lenght.
+; Calculate loaded bytes, and store the length.
 ; Restore IX.
 ; Jump to load another block.
 ;
 
 
-		    ; subtract from max number of bytes / original lenght
+		    ; subtract from max number of bytes / original length
                     ; to get bytes loaded
 		    ; eg. original DE calling LD_BYTES vs new DE returning from LD_BYTES 
 		    ; DE (length) = original DE - new DE - 1 
@@ -196,7 +196,7 @@ END_LOAD:	LD	HL,BEGIN-0x4000 ; $BF54  max number of bytes
 
 		POP	HL		; POP IX before loading, beginning of block
 		    
-		; store lenght in memory of this block, before data loaded
+		; store length in memory of this block, before data loaded
 		LD	(HL),E          ; (HL) = size (word) = DE at the beginning of block
 		INC	HL		; point to next byte
 		LD	(HL),D
@@ -278,7 +278,7 @@ NEXT_SBLOCK:	CALL	DELAY
 		INC	IX
 
 		; IX is now pointing at data to be saved
-		; DE has lenght of data to be saved
+		; DE has length of data to be saved
 
 		CALL	SA_BYTES 	; CALL	SA_BYTES
 					; change it to CALL $04C6
