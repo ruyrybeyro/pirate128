@@ -14,6 +14,9 @@
 ; border green    - 1 make another copy
 ;                   2 start over
 ;
+;
+
+
 ; FORMAT of tape block in memory from $4000 onwards
 ;
 ;  BYTE 1 - LSB size of block
