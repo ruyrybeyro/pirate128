@@ -35,7 +35,7 @@
 ; returns from LD_FLAG if different flag
 ; returns when SPACE pressed or end of data on tape
 ;
-; upon completion:
+; Returns upon completion:
 ;
 ; DE = number of bytes loaded + 1 
 ; IX = IX + number of bytes loaded + 1
@@ -48,6 +48,13 @@ LD_BYTES2	EQU	$0562
 ;
 ; if flag was different than 0
 ; we need to reenter load routine
+;
+; returns when SPACE pressed or end of data on tape
+;
+; Returns upon completion:
+;
+; DE = number of bytes loaded + 1
+; IX = IX + number of bytes loaded + 1
 ;
 LD_FLAG2	EQU	$05B6
 
