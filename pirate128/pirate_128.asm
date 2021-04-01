@@ -1,4 +1,4 @@
-; PIRATA 2-3 bugs fixed, code optimized and smaller
+; Pirate128 - 128KB look alike "Pirata" for all 128KB models
 ; Rui Ribeiro - Jan/2021
 ;
 ; border cyan/red - introduce tape to copy

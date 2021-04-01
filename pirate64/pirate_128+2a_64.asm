@@ -1,4 +1,4 @@
-; PIRATA 2-3 bugs fixed, code optimized and smaller
+; 64KB look alike "Pirata" for Amstrad special paging mode
 ; Rui Ribeiro - Jan/2021
 ;
 ; border cyan/red - introduce tape to copy
