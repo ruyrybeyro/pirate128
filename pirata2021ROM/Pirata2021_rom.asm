@@ -79,7 +79,7 @@ SA_BYTES2       EQU     $04C6
 ; constants
 
 RAM_BEGIN	EQU	$4000		; first byte of RAM (screen)
-MAX_SIZE	EQU	STACK - RAM_BEGIN - 5
+MAX_SIZE	EQU	$FFFF-8+1 - RAM_BEGIN - 5
 
 
                 ;
@@ -315,5 +315,5 @@ DLOOP:		DEC	BC		; decrement BC $FFFF/65535 times
 		RET
 
 		; 8 bytes at the end of RAM empty
-STACK:		;DEFS	(8)	
-		END	START
+;STACK:		;DEFS	(8)	
+		END	
