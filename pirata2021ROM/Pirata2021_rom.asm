@@ -26,7 +26,7 @@
 
 ; if BYTE1 and BYTE2 = 0, no more blocks, otherwise another block follows
 
-; 171 bytes = 155 bytes + 16 bytes for stack (of which 14 are available)
+; 141 bytes ROM + 8 bytes for stack
 
 ; ROM CALL - alternate LD_BYTES entry point
 ; https://skoolkid.github.io/rom/asm/0556.html
@@ -163,7 +163,7 @@ L_NEXTBLK:
                                         ; after block size
                                         ; IX = first data byte
 
-
+		XOR	A		; Z=1
 		CALL	$LD_FLAG3	; $05B7 - load entry after flag check.
 
 ;

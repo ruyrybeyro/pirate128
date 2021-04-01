@@ -170,9 +170,6 @@ L_NEXTBLK:	LD	(IX+02),00	; init flag type of tape block to zero
                                         ; right after where it left
 					; load entry after flag check.
                                         ;
-					; delete XOR A and change CALL to
-					; CALL $05B7
-                                        ; less one byte
 
 ;
 ; ===========================
