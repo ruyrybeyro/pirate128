@@ -166,6 +166,10 @@ L_NEXTBLK:	LD	(IX+02),00	; init flag type of tape block to zero
 
 
 		XOR	A               ; Z=1
+                                        ; comparation failed if here
+					; we need to change Z flag
+                                        ; as it is used ahead on ROM
+
 		CALL	$LD_FLAG2	; force reentry into load tape routine
                                         ; right after where it left
 					; load entry after flag check.

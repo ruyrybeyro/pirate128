@@ -164,6 +164,9 @@ L_NEXTBLK:
                                         ; IX = first data byte
 
 		XOR	A		; Z=1
+                                        ; we need to change Z flag
+                                        ; as it is used ahead on ROM
+
 		CALL	$LD_FLAG3	; $05B7 - load entry after flag check.
 
 ;
