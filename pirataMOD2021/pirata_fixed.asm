@@ -86,7 +86,7 @@ MAX_SIZE	EQU	BEGIN - RAM_BEGIN - 5
                 ; entry point of PIRATA MC subroutine
                 ; originally stored in a REM statement in BASIC
 		; in this MOD2021 stored inside A$
-                ; transfered to $FF54 via LDIR
+                ; transfered to ORG ADDRESS  via LDIR
                 ;
                 ; ORG   65387
 		ORG 	$FF6B

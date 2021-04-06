@@ -85,7 +85,6 @@ MAX_SIZE	EQU	$FFFF-8+1 - RAM_BEGIN - 5
                 ;
                 ; entry point of PIRATA MC subroutine
                 ; originally stored in a REM statement in BASIC
-                ; transfered to ORG address via LDIR
                 ;
                 ; ORG   14446
 		ORG 	$386E
