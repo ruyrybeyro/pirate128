@@ -301,7 +301,7 @@ NEXT_SBLOCK:	CALL	DELAY
                                         ; returning from SA_BYTES
 
 				        ; if an interrupt comes before DI
-					; it needs 20 bytes stack
+					; it needs more 20 bytes stack
 					; if a interrupt happens and a key is pressed
 					; machine code will be corrupted
 					; at the DELAY subroutine
