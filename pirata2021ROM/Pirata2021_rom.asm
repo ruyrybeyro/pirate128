@@ -26,7 +26,7 @@
 
 ; if BYTE1 and BYTE2 = 0, no more blocks, otherwise another block follows
 
-; 141 bytes ROM + 8 bytes for stack
+; 140 bytes ROM + 8 bytes for stack
 
 ; ROM CALL - alternate LD_BYTES entry point
 ; https://skoolkid.github.io/rom/asm/0556.html
@@ -167,7 +167,7 @@ L_NEXTBLK:
                                         ; as it is used ahead on ROM
 					; Z=1 flag already loaded, C=0 loading/not verifying
 
-		CALL	$LD_FLAG3	; $05B7 - load entry after flag check.
+		CALL	LD_FLAG3	; $05B7 - load entry after flag check.
 
 ;
 ; ===========================
@@ -188,8 +188,9 @@ END_BLOCK:	LD	HL,MAX_SIZE
 		OR	A		; carry =0
 		SBC	HL,DE		; HL=bytes loaded
 
-		LD	D,H
-		LD	E,L		; DE=HL=bytes loaded(+checksum)
+		EX	DE,HL
+		;LD	D,H
+		;LD	E,L		; DE=HL=bytes loaded(+checksum)
 		DEC	DE		; DE=bytes loaded
 
 		POP	HL		; POP IX before loading, beggining of block
