@@ -159,7 +159,8 @@ SA_BYTES:
                                 ; inner and outer loop counters
                                 ; a five second lead-in is used for a header.
 
-        BIT     7,A             ; test one bit of accumulator.
+        ;BIT     7,A             ; test one bit of accumulator.
+	AND	L
                                 ; (AND A ?)
         JR      Z,SA_FLAG       ; skip to SA-FLAG if a header is being saved.
 
