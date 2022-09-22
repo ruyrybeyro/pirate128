@@ -141,7 +141,7 @@ L_NEXTBLK:	LD	(IX+02),00	; init flag type of tape block to zero
 		OUT	($FE),A		
 		; end of "ROM" code
 
-		CALL	$LD_BYTES2    	; load block
+		CALL	LD_BYTES2    	; load block
 		JR	Z,END_LOAD	; end of tape byte stream
 
 		; read keyboard port $7FFE
@@ -171,7 +171,7 @@ L_NEXTBLK:	LD	(IX+02),00	; init flag type of tape block to zero
                                         ; as it is used ahead on ROM
 					; Z=1 flag already loaded, C=0 loading/not verifying
 
-		CALL	$LD_FLAG2	; force reentry into load tape routine
+		CALL	LD_FLAG2	; force reentry into load tape routine
                                         ; right after where it left
 					; load entry after flag check.
                                         ;
