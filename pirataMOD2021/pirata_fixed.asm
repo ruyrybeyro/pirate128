@@ -89,7 +89,7 @@ MAX_SIZE	EQU	BEGIN - RAM_BEGIN - 5
                 ; transfered to ORG ADDRESS  via LDIR
                 ;
                 ; ORG   65387
-		ORG 	$FF6B
+		ORG 	$FF6C
 
 ;
 ; ===========================
@@ -170,7 +170,7 @@ L_NEXTBLK:
 					; as it is used ahead on ROM
 					; Z=1 flag already loaded, C=0 loading/not verifying
 
-		CALL	$LD_FLAG3	; $05B7 - load entry after flag check.
+		CALL	LD_FLAG3	; $05B7 - load entry after flag check.
 
 ;
 ; ===========================
@@ -191,8 +191,9 @@ END_BLOCK:	LD	HL,MAX_SIZE
 		OR	A		; carry =0
 		SBC	HL,DE		; HL=bytes loaded
 
-		LD	D,H
-		LD	E,L		; DE=HL=bytes loaded(+checksum)
+		EX	DE,HL
+		;LD	D,H
+		;LD	E,L		; DE=HL=bytes loaded(+checksum)
 		DEC	DE		; DE=bytes loaded
 
 		POP	HL		; POP IX before loading, beggining of block
