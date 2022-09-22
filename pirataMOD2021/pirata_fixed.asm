@@ -26,7 +26,7 @@
 
 ; if BYTE1 and BYTE2 = 0, no more blocks, otherwise another block follows
 
-; 149 bytes = 141 bytes + 8 bytes for stack
+; 148 bytes = 140 bytes + 8 bytes for stack
 
 ; ROM CALL - alternate LD_BYTES entry point
 ; https://skoolkid.github.io/rom/asm/0556.html
@@ -88,7 +88,7 @@ MAX_SIZE	EQU	BEGIN - RAM_BEGIN - 5
 		; in this MOD2021 stored inside A$
                 ; transfered to ORG ADDRESS  via LDIR
                 ;
-                ; ORG   65387
+                ; ORG   65388
 		ORG 	$FF6C
 
 ;
